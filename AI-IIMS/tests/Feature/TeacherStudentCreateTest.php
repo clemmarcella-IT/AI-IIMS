@@ -40,7 +40,7 @@ it('allows teachers to add student accounts', function () {
         'student_code' => 'STU-1001',
         'first_name' => 'Grace',
         'last_name' => 'Hopper',
-        'grade_level' => 'Grade 11',
+        'grade_level' => 'Grade 12',
         'section' => 'STEM A',
         'consent_status' => true,
     ]);
@@ -62,7 +62,7 @@ it('validates unique student account details', function () {
         'student_code' => 'STU-1001',
         'first_name' => 'Existing',
         'last_name' => 'Student',
-        'grade_level' => 'Grade 11',
+        'grade_level' => 'Grade 12',
         'section' => 'STEM A',
     ]);
 
@@ -75,7 +75,7 @@ it('validates unique student account details', function () {
             'student_code' => 'STU-1001',
             'first_name' => 'New',
             'last_name' => 'Student',
-            'grade_level' => 'Grade 11',
+            'grade_level' => 'Grade 12',
             'section' => 'STEM B',
         ]);
 

@@ -54,7 +54,7 @@ const features: Feature[] = [
     {
         title: 'Interactive Student Lessons',
         description:
-            'Guide learners through engaging materials, checkpoints, and activities built for Grade 11.',
+            'Guide learners through engaging materials, checkpoints, and activities built for Grade 12.',
         icon: BookOpenCheck,
     },
     {
@@ -161,7 +161,7 @@ export default function Welcome({
                             <div className="max-w-3xl">
                                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-sm text-muted-foreground">
                                     <Lightbulb className="size-4 text-amber-500" />
-                                    Built for Grade 11 interactive learning
+                                    Built for Grade 12 interactive learning
                                 </div>
                                 <h1 className="text-4xl leading-tight font-semibold sm:text-5xl lg:text-6xl">
                                     AI-Enhanced Interactive Instructional
@@ -170,7 +170,7 @@ export default function Welcome({
                                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                                     A web-based learning platform that helps
                                     teachers create interactive lessons and
-                                    supports Grade 11 students through AI
+                                    supports Grade 12 students through AI
                                     feedback, quizzes, and progress tracking.
                                 </p>
 
@@ -201,7 +201,7 @@ export default function Welcome({
                                                 Lesson Progress
                                             </p>
                                             <p className="text-sm text-muted-foreground">
-                                                Grade 11 learner dashboard
+                                                Grade 12 learner dashboard
                                             </p>
                                         </div>
                                         <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300">
@@ -332,7 +332,7 @@ export default function Welcome({
                 <footer className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                     <p>AI Learning Materials</p>
                     <p>
-                        AI-enhanced instructional support for Grade 11 learning.
+                        AI-enhanced instructional support for Grade 12 learning.
                     </p>
                 </footer>
             </div>

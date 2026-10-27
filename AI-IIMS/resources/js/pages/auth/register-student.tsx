@@ -240,7 +240,7 @@ export default function RegisterStudent() {
                                             name="grade_level"
                                             type="text"
                                             required
-                                            placeholder="Grade 11"
+                                            placeholder="Grade 12"
                                             className="w-full"
                                         />
                                         <InputError

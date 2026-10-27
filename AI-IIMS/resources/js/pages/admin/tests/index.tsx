@@ -110,7 +110,7 @@ export default function AdminTestsIndex({
                             </h1>
                             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
                                 Maintain teacher/admin-defined assessments
-                                aligned with Grade 11 lessons.
+                                aligned with Grade 12 lessons.
                             </p>
                         </div>
                         <Button asChild>
