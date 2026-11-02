@@ -21,6 +21,11 @@ SET time_zone = "+00:00";
 -- Database: `ai-iims`
 --
 
+CREATE DATABASE IF NOT EXISTS `ai-iims`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+USE `ai-iims`;
+
 -- --------------------------------------------------------
 
 --
