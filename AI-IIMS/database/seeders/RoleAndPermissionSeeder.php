@@ -163,6 +163,10 @@ class RoleAndPermissionSeeder extends Seeder
             ]
         );
 
+        if ($admin->email_verified_at === null) {
+            $admin->forceFill(['email_verified_at' => now()])->save();
+        }
+
         $admin->assignRole(RoleEnum::ADMIN->value);
     }
 }

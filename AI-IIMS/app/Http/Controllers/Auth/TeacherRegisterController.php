@@ -78,18 +78,19 @@ class TeacherRegisterController extends Controller
             ]);
 
             DB::commit();
-
-            event(new Registered($user));
-
-            Auth::login($user);
-
-            return redirect()->route('dashboard');
         } catch (\Throwable $th) {
             DB::rollBack();
+            report($th);
 
             return back()->withErrors([
                 'register' => 'Failed to create teacher account.',
             ]);
         }
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect()->route('dashboard');
     }
 }

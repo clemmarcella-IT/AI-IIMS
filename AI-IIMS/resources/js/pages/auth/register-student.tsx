@@ -24,6 +24,16 @@ export default function RegisterStudent() {
         password.trim() !== '' &&
         passwordConfirmation.trim() !== '' &&
         password === passwordConfirmation;
+    const visibleErrorFields =
+        step === 1
+            ? ['name', 'email', 'password', 'password_confirmation']
+            : [
+                  'student_code',
+                  'first_name',
+                  'last_name',
+                  'grade_level',
+                  'section',
+              ];
 
     return (
         <>
@@ -38,6 +48,20 @@ export default function RegisterStudent() {
             >
                 {({ processing, errors }) => (
                     <>
+                        {Object.entries(errors)
+                            .filter(
+                                ([field]) =>
+                                    field === 'register' ||
+                                    !visibleErrorFields.includes(field),
+                            )
+                            .map(([field, message]) => (
+                                <InputError
+                                    key={field}
+                                    message={message}
+                                    role="alert"
+                                />
+                            ))}
+
                         {step === 1 && (
                             <div className="grid gap-6">
                                 <div className="grid gap-2">
