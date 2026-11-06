@@ -1,6 +1,16 @@
 import type { LucideIcon } from 'lucide-react';
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
+
+export type LessonSection = {
+    id: number;
+    title: string;
+    content: string;
+    content_type: 'text' | 'slides';
+    sort_order: number;
+    is_collapsible: boolean;
+};
+
 export type Panel =
     | 'students'
     | 'lessons'
@@ -16,6 +26,7 @@ export type Lesson = {
     subject: string | null;
     topic: string | null;
     content: string | null;
+    sections?: LessonSection[];
     difficulty_level: LessonDifficulty;
     is_published: boolean;
     questions_count: number;

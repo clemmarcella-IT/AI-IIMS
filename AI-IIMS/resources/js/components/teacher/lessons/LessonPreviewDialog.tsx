@@ -1,6 +1,8 @@
 import { Dialog as PrimeDialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
 
+import { hasSlideDeck, SlideDeckViewer } from '@/components/lesson-slides';
+import RichTextContent from '@/components/rich-text-content';
 import { difficultyClassNames, statusClassNames } from './constants';
 import type { Lesson } from './types';
 import { formatDate, formatDifficulty } from './utils';
@@ -47,10 +49,43 @@ export function LessonPreviewDialog({
                         />
                     </div>
 
-                    <div className="rounded-lg border bg-muted/30 p-4 text-sm leading-6 whitespace-pre-wrap">
-                        {lesson.content ||
-                            'No lesson content has been added yet.'}
-                    </div>
+                    {lesson.sections && lesson.sections.length > 0 ? (
+                        <div className="grid max-h-[60vh] gap-4 overflow-y-auto pr-1">
+                            {lesson.sections.map((section) => (
+                                <div
+                                    key={section.id}
+                                    className="rounded-lg border bg-muted/30 p-4"
+                                >
+                                    <h3 className="mb-3 text-base font-semibold">
+                                        {section.title}
+                                    </h3>
+                                    {section.content_type === 'slides' ||
+                                    hasSlideDeck(section.content) ? (
+                                        <SlideDeckViewer
+                                            html={section.content}
+                                        />
+                                    ) : section.content ? (
+                                        <RichTextContent
+                                            html={section.content}
+                                            className="text-sm leading-6"
+                                        />
+                                    ) : (
+                                        <p className="text-sm text-muted-foreground">
+                                            No lesson content has been added yet.
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="rounded-lg border bg-muted/30 p-4 text-sm leading-6">
+                            {lesson.content ? (
+                                <RichTextContent html={lesson.content} />
+                            ) : (
+                                'No lesson content has been added yet.'
+                            )}
+                        </div>
+                    )}
 
                     <p className="text-sm text-muted-foreground">
                         Last updated {formatDate(lesson.updated_at)}

@@ -53,6 +53,18 @@ class LessonController extends Controller
             'subject' => $lesson->subject,
             'topic' => $lesson->topic,
             'content' => $lesson->content,
+            'sections' => $lesson->sections
+                ->sortBy('sort_order')
+                ->values()
+                ->map(fn ($section): array => [
+                    'id' => $section->id,
+                    'title' => $section->title,
+                    'content' => $section->content ?? '',
+                    'content_type' => $section->content_type ?? 'text',
+                    'sort_order' => $section->sort_order,
+                    'is_collapsible' => $section->is_collapsible,
+                ])
+                ->all(),
             'objectives' => $lesson->objectives,
             'activities' => $this->legacyActivitiesFor($lesson),
             'image_prompt' => $lesson->image_prompt,
@@ -923,6 +935,7 @@ class LessonController extends Controller
                 'lessonActivities.question',
                 'questions',
                 'progress:id,lesson_id,status,progress_percentage,score_percentage',
+                'sections',
             ])
             ->latest('updated_at')
             ->get([
