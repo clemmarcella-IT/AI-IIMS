@@ -18,10 +18,16 @@ class StudentTestController extends Controller
     public function pretest(Request $request): Response|RedirectResponse
     {
         $student = $this->studentFrom($request);
-        $test = $this->activeTest('pretest');
 
         if ($this->hasAttempt($student, 'pretest')) {
             return redirect()->route('student.dashboard');
+        }
+
+        $test = $this->activeTest('pretest');
+
+        if (! $test) {
+            return redirect()->route('student.dashboard')
+                ->with('warning', 'The pretest is not available yet. Please contact your teacher.');
         }
 
         return $this->renderTest($test);
@@ -40,7 +46,14 @@ class StudentTestController extends Controller
             return redirect()->route('student.dashboard');
         }
 
-        return $this->renderTest($this->activeTest('posttest'));
+        $test = $this->activeTest('posttest');
+
+        if (! $test) {
+            return redirect()->route('student.dashboard')
+                ->with('warning', 'The posttest is not available yet. Please contact your teacher.');
+        }
+
+        return $this->renderTest($test);
     }
 
     public function submit(Request $request, Test $test): RedirectResponse
@@ -130,7 +143,7 @@ class StudentTestController extends Controller
             ->with('success', 'Assessment submitted.');
     }
 
-    private function activeTest(string $testType): Test
+    private function activeTest(string $testType): ?Test
     {
         return Test::query()
             ->with(['questions' => fn ($query) => $query->oldest('id')])

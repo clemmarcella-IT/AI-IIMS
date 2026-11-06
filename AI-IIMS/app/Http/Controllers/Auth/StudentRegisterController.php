@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,12 @@ class StudentRegisterController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('student_code')) {
+            $request->merge([
+                'student_code' => trim((string) $request->input('student_code')),
+            ]);
+        }
+
         $validated = $request->validate([
             /*
             |--------------------------------------------------------------------------
@@ -55,6 +62,13 @@ class StudentRegisterController extends Controller
                 'string',
                 'max:255',
                 'unique:students,student_code',
+                function (string $attribute, mixed $value, \Closure $fail): void {
+                    if (Student::query()
+                        ->whereRaw('LOWER(student_code) = LOWER(?)', [(string) $value])
+                        ->exists()) {
+                        $fail('This Student Code is already registered.');
+                    }
+                },
             ],
 
             'first_name' => ['required', 'string', 'max:255'],
@@ -70,6 +84,8 @@ class StudentRegisterController extends Controller
             */
 
             'consent_status' => ['required', 'boolean'],
+        ], [
+            'student_code.unique' => 'This Student Code is already registered.',
         ]);
 
         DB::beginTransaction();
@@ -120,6 +136,19 @@ class StudentRegisterController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
+
+            if (
+                $th instanceof QueryException
+                && (($th->errorInfo[1] ?? null) === 1062)
+                && Student::query()
+                    ->whereRaw('LOWER(student_code) = LOWER(?)', [(string) $validated['student_code']])
+                    ->exists()
+            ) {
+                return back()->withInput($request->except(['password', 'password_confirmation']))
+                    ->withErrors([
+                        'student_code' => 'This Student Code is already registered.',
+                    ]);
+            }
 
             return back()->withErrors([
                 'register' => 'Failed to create student account.',
